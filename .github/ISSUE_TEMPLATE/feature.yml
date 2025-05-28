@@ -1,0 +1,20 @@
+name: "💡 Feature"
+description: "feature request"
+labels: "💡 Feature"
+body:
+  - type: textarea
+    attributes:
+      label: 💡 Describe
+      description: 목적
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ✅ Tasks
+      description: 업무 세분화
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 💬 Additional context
+      description: 추가 내용
