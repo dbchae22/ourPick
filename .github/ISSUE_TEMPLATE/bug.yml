@@ -1,0 +1,53 @@
+name: "\U0001F41E Bug"
+description: "Bug Report"
+labels: "\U0001F41E Bug"
+body:
+  - type: textarea
+    attributes:
+      label: 🐞 Detailed Description
+      description: 버그에 대한 설명
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ✅ Expected Behavior
+      description: 예상했던 결과
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: ❗ Current Behavior
+      description: 실제 결과
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 💻 Reproduction steps
+      description: 버그 발생 과정
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: 📄 Logs
+      description: 로그
+      render: shell
+    validations:
+      required: false
+    attributes:
+      label: 📸 Screenshots
+      description: 스크린샷
+      render: shell
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: 🌏 environment
+      description: 버그가 발생한 환경
+      placeholder: |
+        OS: macOS 12.2.1
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: 💬 Additional context
+      description: 추가 내용
