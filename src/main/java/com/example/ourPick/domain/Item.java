@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int itemId;
+    private String itemId;
     private String itemName;
     private String storeName;
     private int discountRate;

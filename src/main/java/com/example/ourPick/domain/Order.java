@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int orderId;
+    private String orderId;
     //1대다
     @OneToMany
     //매핑할 외래키
