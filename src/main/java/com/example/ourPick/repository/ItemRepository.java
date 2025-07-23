@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 //<엔터티 타입, ID 타입>
 public interface ItemRepository extends JpaRepository<Item, String> {
-    //save(entity)	저장 (insert/update)
-    //findById(id)	ID로 조회
+    //save(entity) 저장 (insert/update)
+    //findById(id) ID로 조회
     //findAll()	전체 조회
-    //delete(entity)	삭제
-    //count()	레코드 수
+    //delete(entity) 삭제
+    //count() 레코드 수
 }
