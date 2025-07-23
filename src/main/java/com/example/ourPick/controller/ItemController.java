@@ -17,9 +17,8 @@ public class ItemController {
     public ItemService itemService;
 
     @PostMapping("/regItem")
-    public int regItem(@RequestBody ItemRequestDTO item){
-        int itemId = itemService.regItem(item);
-        return itemId;
+    public void regItem(@RequestBody ItemRequestDTO item){
+        itemService.regItem(item);
     }
 
 }

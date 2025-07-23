@@ -19,7 +19,7 @@ public class ItemService {
     @Autowired
     private ItemRepository itemRepository;
 
-    public int regItem(ItemRequestDTO item) {
+    public void regItem(ItemRequestDTO item) {
         Item itemEntity = new Item(
                 item.getItemName(),
                 item.getStoreName(),
@@ -27,9 +27,5 @@ public class ItemService {
                 item.getPrice(),
                 item.getMainPhoto()
                 );
-        Item savedItem = itemRepository.save(itemEntity);
-        int itemId = savedItem.getItemId();
-        System.out.println(itemId);
-        return itemId;
     }
 }
