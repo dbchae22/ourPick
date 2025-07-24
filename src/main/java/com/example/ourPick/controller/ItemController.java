@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class ItemController {
 
-    @Autowired
-    public ItemService itemService;
+    public final ItemService itemService;
 
-    @PostMapping("/regItem")
+    @PostMapping("/reg-item")
     public void regItem(@RequestBody ItemRequestDTO item){
         itemService.regItem(item);
     }

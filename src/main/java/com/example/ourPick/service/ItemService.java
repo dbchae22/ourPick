@@ -10,14 +10,11 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 
-//서비스 계층 선언
 @Service
-//final 필드를 자동으로 생성해줌
 @RequiredArgsConstructor
 public class ItemService {
 
-    @Autowired
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
 
     public void regItem(ItemRequestDTO item) {
         Item itemEntity = new Item(
