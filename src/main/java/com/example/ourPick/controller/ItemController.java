@@ -4,18 +4,16 @@ import com.example.ourPick.dto.ItemRequestDTO;
 import com.example.ourPick.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/items")
 public class ItemController {
 
     public final ItemService itemService;
 
-    @PostMapping("/reg-item")
+    @PostMapping
     public void regItem(@RequestBody ItemRequestDTO item){
         itemService.regItem(item);
     }
