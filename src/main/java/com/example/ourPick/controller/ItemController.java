@@ -1,6 +1,6 @@
 package com.example.ourPick.controller;
 
-import com.example.ourPick.dto.ItemRequestDTO;
+import com.example.ourPick.dto.ItemRequestRequest;
 import com.example.ourPick.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ public class ItemController {
     public final ItemService itemService;
 
     @PostMapping
-    public void regItem(@RequestBody ItemRequestDTO item){
+    public void regItem(@RequestBody ItemRequestRequest item){
         itemService.regItem(item);
     }
 

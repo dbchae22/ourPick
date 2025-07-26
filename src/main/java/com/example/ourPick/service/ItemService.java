@@ -1,7 +1,7 @@
 package com.example.ourPick.service;
 
 import com.example.ourPick.domain.Item;
-import com.example.ourPick.dto.ItemRequestDTO;
+import com.example.ourPick.dto.ItemRequestRequest;
 import com.example.ourPick.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ public class ItemService {
 
     private final ItemRepository itemRepository;
 
-    public void regItem(ItemRequestDTO item) {
+    public void regItem(ItemRequestRequest item) {
         Item itemEntity = new Item(
                 item.getItemName(),
                 item.getStoreName(),

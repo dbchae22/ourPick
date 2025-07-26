@@ -4,7 +4,7 @@ import lombok.*;
 
 @Getter
 @Setter
-public class ItemRequestDTO {
+public class ItemRequestRequest {
     private String itemName;
     private String storeName;
     private int discountRate;
