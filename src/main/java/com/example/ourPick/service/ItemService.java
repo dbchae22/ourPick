@@ -2,6 +2,7 @@ package com.example.ourPick.service;
 
 import com.example.ourPick.domain.Item;
 import com.example.ourPick.dto.ItemRequestRequest;
+import com.example.ourPick.dto.ItemResponse;
 import com.example.ourPick.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +25,12 @@ public class ItemService {
                 item.getPrice(),
                 item.getMainPhoto()
                 );
+    }
+
+    public List<ItemResponse> getItems() {
+        final List<Item> items = itemRepository.findAll();
+        return items.stream()
+                .map(ItemResponse::from)
+                .toList();
     }
 }
