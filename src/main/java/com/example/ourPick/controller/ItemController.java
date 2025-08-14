@@ -4,7 +4,6 @@ import com.example.ourPick.dto.ItemRequestRequest;
 import com.example.ourPick.dto.ItemResponse;
 import com.example.ourPick.service.ItemService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +22,8 @@ public class ItemController {
 
     @GetMapping
     public List<ItemResponse> getItems(){
-        List<ItemResponse> resultList = itemService.getItems();
-        return resultList;
+        List<ItemResponse> results = itemService.getItems();
+        return results;
     }
 
 }
