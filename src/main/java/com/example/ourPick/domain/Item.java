@@ -2,7 +2,7 @@ package com.example.ourPick.domain;
 
 import jakarta.persistence.*;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "item")
 public class Item {
     @Id
