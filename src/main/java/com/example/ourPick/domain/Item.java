@@ -16,7 +16,7 @@ import org.hibernate.annotations.CreationTimestamp;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "item")
+@Table(name = "items")
 public class Item {
 
   @Id
