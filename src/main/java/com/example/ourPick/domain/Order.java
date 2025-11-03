@@ -1,24 +1,43 @@
 package com.example.ourPick.domain;
 
 import jakarta.persistence.*;
-import org.springframework.data.annotation.Id;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "orders")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "order_id")
     private String orderId;
-    //1대다
-    @OneToMany
-    //매핑할 외래키
-    @JoinColumn(name="USER_ID")
-    private int userId;
-    private String totalPrice;
+    
+    @Column(name = "user_id")
+    private Integer userId;
+    
+    @Column(name = "total_price")
+    private Integer totalPrice;
+    
+    @Column(name = "status")
     private String status;
+    
+    @Column(name = "payment_method")
     private String paymentMethod;
+    
+    @Column(name = "address")
     private String address;
-    private LocalDate created_at;
-    private LocalDate updated_at;
+    
+    @CreationTimestamp
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+    
+    @UpdateTimestamp
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 }
