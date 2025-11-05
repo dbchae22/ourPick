@@ -1,33 +1,43 @@
 package com.example.ourPick.domain;
 
 import jakarta.persistence.*;
-import jakarta.persistence.Id;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "item")
+@Table(name = "items")
 public class Item {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int itemId;
+    @Column(name = "item_id")
+    private Integer itemId;
+    
+    @Column(name = "item_name", nullable = false)
     private String itemName;
+    
+    @Column(name = "store_name")
     private String storeName;
-    private int discountRate;
-    private int price;
+    
+    @Column(name = "discount_rate")
+    private Integer discountRate;
+    
+    @Column(name = "price")
+    private Integer price;
+    
+    @Column(name = "main_photo")
     private String mainPhoto;
+    
     @CreationTimestamp
-    private LocalDate createdAt;
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
 
-    public Item(String itemName, String storeName, int discountRate, int price, String mainPhoto) {
+    public Item(String itemName, String storeName, Integer discountRate, Integer price, String mainPhoto) {
         this.itemName = itemName;
         this.storeName = storeName;
         this.discountRate = discountRate;
