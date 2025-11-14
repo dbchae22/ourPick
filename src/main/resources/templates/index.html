@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OurPick - 쇼핑몰</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">OurPick</h1>
+            <form class="search-form" method="get" action="/">
+                <input type="text" name="search" placeholder="상품 검색..." th:value="${search}" class="search-input">
+                <button type="submit" class="search-btn">검색</button>
+            </form>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <h2 class="section-title">상품 목록</h2>
+            <div class="product-grid" th:if="${items != null and !items.isEmpty()}">
+                <div class="product-card" th:each="item : ${items}">
+                    <div class="product-image">
+                        <img th:src="${item.mainPhoto != null ? item.mainPhoto : '/images/items/no-img.png'}"
+                             th:alt="${item.itemName}" 
+                             onerror="this.src='/images/items/no-img.png'">
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name" th:text="${item.itemName}"></h3>
+                        <p class="store-name" th:text="${item.storeName}"></p>
+                        <div class="price-container">
+                            <div class="price-info">
+                                <div class="original-price-wrapper" th:if="${item.discountRate > 0}">
+                                    <span class="original-price" 
+                                          th:text="${#numbers.formatInteger(item.price * 100 / (100 - item.discountRate), 0, 'COMMA')} + '원'"></span>
+                                    <span class="discount-rate" th:text="${item.discountRate} + '% 할인'"></span>
+                                </div>
+                                <span class="sale-price" th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')} + '원'"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="empty-state" th:if="${items == null or items.isEmpty()}">
+                <p>등록된 상품이 없습니다.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 OurPick. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
+
