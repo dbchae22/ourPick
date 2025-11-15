@@ -5,10 +5,8 @@ import com.example.ourPick.dto.ItemRequestRequest;
 import com.example.ourPick.dto.ItemResponse;
 import com.example.ourPick.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -25,6 +23,7 @@ public class ItemService {
                 item.getPrice(),
                 item.getMainPhoto()
                 );
+        itemRepository.save(itemEntity);
     }
 
     public List<ItemResponse> getItems() {
