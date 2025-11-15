@@ -5,10 +5,10 @@ import com.example.ourPick.dto.ItemRequestRequest;
 import com.example.ourPick.dto.ItemResponse;
 import com.example.ourPick.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.coyote.BadRequestException;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -32,5 +32,11 @@ public class ItemService {
         return items.stream()
                 .map(ItemResponse::from)
                 .toList();
+    }
+
+    public Item updateItemName(int itemId, String itemName) throws BadRequestException {
+        Item item = itemRepository.findById(itemId).orElseThrow(BadRequestException::new);
+        item.setItemName(itemName);
+        return item;
     }
 }

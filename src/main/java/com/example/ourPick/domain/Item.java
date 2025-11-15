@@ -44,4 +44,8 @@ public class Item {
         this.price = price;
         this.mainPhoto = mainPhoto;
     }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 }
