@@ -9,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class ItemResponse {
+    private Integer itemId;
     private String itemName;
     private String storeName;
     private int discountRate;
@@ -17,6 +18,7 @@ public class ItemResponse {
 
     public static ItemResponse from(Item item) {
         return new ItemResponse(
+                item.getItemId(),
                 item.getItemName(),
                 item.getStoreName(),
                 item.getDiscountRate(),

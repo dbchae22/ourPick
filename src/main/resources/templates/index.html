@@ -21,7 +21,10 @@
         <div class="container">
             <h2 class="section-title">상품 목록</h2>
             <div class="product-grid" th:if="${items != null and !items.isEmpty()}">
-                <div class="product-card" th:each="item : ${items}">
+                <a th:href="@{/{itemId}(itemId=${item.itemId})}" 
+                   class="product-card" 
+                   th:each="item : ${items}"
+                   style="text-decoration: none; color: inherit; display: block;">
                     <div class="product-image">
                         <img th:src="${item.mainPhoto != null ? item.mainPhoto : '/images/items/no-img.png'}"
                              th:alt="${item.itemName}" 
@@ -41,7 +44,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="empty-state" th:if="${items == null or items.isEmpty()}">
                 <p>등록된 상품이 없습니다.</p>
