@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${item.itemName} + ' - OurPick'">상품 상세 - OurPick</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">OurPick</h1>
+            <form class="search-form" method="get" action="/">
+                <input type="text" name="search" placeholder="상품 검색..." class="search-input">
+                <button type="submit" class="search-btn">검색</button>
+            </form>
+        </div>
+    </header>
+
+    <main class="main">
+        <div class="item-detail-container">
+            <a href="/" class="back-button">← 목록으로 돌아가기</a>
+            
+            <div class="item-detail-content" th:if="${item != null}">
+                <div class="item-image-section">
+                    <img th:src="${item.mainPhoto != null ? item.mainPhoto : '/images/items/no-img.png'}"
+                         th:alt="${item.itemName}"
+                         onerror="this.src='/images/items/no-img.png'">
+                </div>
+                
+                <div class="item-info-section">
+                    <h1 class="item-name" th:text="${item.itemName}"></h1>
+                    <p class="store-name" th:text="${item.storeName}"></p>
+                    
+                    <div class="price-section">
+                        <div class="original-price-wrapper" th:if="${item.discountRate > 0}">
+                            <span class="original-price" 
+                                  th:text="${#numbers.formatInteger(item.price * 100 / (100 - item.discountRate), 0, 'COMMA')} + '원'"></span>
+                            <span class="discount-rate" th:text="${item.discountRate} + '% 할인'"></span>
+                        </div>
+                        <div class="sale-price" th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')} + '원'"></div>
+                    </div>
+                    
+                    <div class="quantity-section">
+                        <span class="quantity-label">수량</span>
+                        <div class="quantity-control">
+                            <button class="quantity-btn" onclick="decreaseQuantity()">-</button>
+                            <input type="number" id="quantity" class="quantity-input" value="1" min="1" onchange="validateQuantity()">
+                            <button class="quantity-btn" onclick="increaseQuantity()">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="purchase-section">
+                        <button class="purchase-btn purchase-btn-primary" onclick="handlePurchase()">구매하기</button>
+                        <button class="purchase-btn purchase-btn-secondary" onclick="handleCart()">장바구니</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 OurPick. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script>
+        function increaseQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            const currentValue = parseInt(quantityInput.value) || 1;
+            quantityInput.value = currentValue + 1;
+        }
+        
+        function decreaseQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            const currentValue = parseInt(quantityInput.value) || 1;
+            if (currentValue > 1) {
+                quantityInput.value = currentValue - 1;
+            }
+        }
+        
+        function validateQuantity() {
+            const quantityInput = document.getElementById('quantity');
+            const value = parseInt(quantityInput.value) || 1;
+            if (value < 1) {
+                quantityInput.value = 1;
+            }
+        }
+        
+        function handlePurchase() {
+            const quantity = document.getElementById('quantity').value;
+            alert('구매하기 기능: 수량 ' + quantity + '개');
+            // TODO: 실제 구매 로직 구현
+        }
+        
+        function handleCart() {
+            const quantity = document.getElementById('quantity').value;
+            alert('장바구니 추가: 수량 ' + quantity + '개');
+            // TODO: 실제 장바구니 로직 구현
+        }
+    </script>
+</body>
+</html>
+
