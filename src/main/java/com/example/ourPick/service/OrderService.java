@@ -24,12 +24,10 @@ public class OrderService {
 
   @Transactional
   public OrderResponse createOrder(OrderRequest request) {
-    validateRequest(request);
-
-    String orderId = generateOrderId();
+    String orderNo = generateOrderNo();
 
     Order order = new Order(
-        orderId,
+        orderNo,
         request.getUserId(),
         request.getTotalPrice(),
         "PENDING",
@@ -42,21 +40,20 @@ public class OrderService {
     List<OrderItem> orderItems = new ArrayList<>();
     List<OrderRequest.OrderItemRequest> items = request.getItemList();
 
-    for (int i = 0; i < items.size(); i++) {
+    for (OrderRequest.OrderItemRequest itemRequest : items) {
       OrderItem orderItem = new OrderItem(
-          saved.getOrderNo(),
-          i + 1,
-          items.get(i).getItemId(),
-          items.get(i).getQuantity(),
-          items.get(i).getItemPrice()
+          saved.getOrderId(),
+          itemRequest.getItemId(),
+          itemRequest.getQuantity(),
+          itemRequest.getItemPrice()
       );
       orderItems.add(orderItem);
     }
     orderItemRepository.saveAll(orderItems);
 
     return new OrderResponse(
-        saved.getOrderNo(),
         saved.getOrderId(),
+        saved.getOrderNo(),
         saved.getUserId(),
         saved.getTotalPrice(),
         saved.getStatus(),
@@ -67,30 +64,8 @@ public class OrderService {
 
   }
 
-  private void validateRequest(OrderRequest request) {
-    if (request == null) {
-      throw new IllegalArgumentException("주문 요청 정보가 없습니다.");
-    }
-    if (request.getUserId() == null) {
-      throw new IllegalArgumentException("사용자 ID가 필요합니다.");
-    }
-    if (request.getTotalPrice() == null || request.getTotalPrice() < 0) {
-      throw new IllegalArgumentException("유효한 총 가격이 필요합니다.");
-    }
-    if (request.getItemList() == null || request.getItemList().isEmpty()) {
-      throw new IllegalArgumentException("주문 항목이 필요합니다.");
-    }
-    for (OrderRequest.OrderItemRequest item : request.getItemList()) {
-      if (item.getItemId() == null || item.getQuantity() == null || item.getQuantity() <= 0) {
-        throw new IllegalArgumentException("주문 항목 정보가 올바르지 않습니다.");
-      }
-    }
-  }
-
-  private String generateOrderId() {
-    String PREFIX = "ORD";
+  public String generateOrderNo() {
     DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("yyyyMMdd");
-    LocalDate currentDate = LocalDate.now();
     String date = LocalDate.now().format(DATE_FORMAT);
 
     return "ORD-" + date + "-" + randomString();

@@ -1,12 +1,15 @@
 package com.example.ourPick.domain;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.UniqueConstraint;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,13 +17,20 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Table(name = "order_items")
+@Table(name = "order_items", uniqueConstraints = {
+    @UniqueConstraint(name = "uk_order_item", columnNames = {"order_id", "item_id"})
+})
 public class OrderItem {
 
-  @EmbeddedId
-  private OrderItemId id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "order_item_id")
+  private Long orderItemId;
 
-  @Column(name = "item_id")
+  @Column(name = "order_id", nullable = false)
+  private Long orderId;
+
+  @Column(name = "item_id", nullable = false)
   private Integer itemId;
 
   @Column(name = "quantity")
@@ -37,9 +47,18 @@ public class OrderItem {
   @JoinColumn(name = "item_id", insertable = false, updatable = false)
   private Item item;
 
-  public OrderItem(Long orderNo, Integer orderSeq, Integer itemId, Integer quantity,
+  public OrderItem(Long orderId, Integer itemId, Integer quantity,
       Integer itemPrice) {
-    this.id = new OrderItemId(orderNo, orderSeq);
+    this.orderId = orderId;
+    this.itemId = itemId;
+    this.quantity = quantity;
+    this.itemPrice = itemPrice;
+  }
+
+  public OrderItem(Long orderItemId, Long orderId, Integer itemId, Integer quantity,
+      Integer itemPrice) {
+    this.orderItemId = orderItemId;
+    this.orderId = orderId;
     this.itemId = itemId;
     this.quantity = quantity;
     this.itemPrice = itemPrice;

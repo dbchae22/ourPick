@@ -15,10 +15,10 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class OrderItemId implements Serializable {
 
-  @Column(name = "order_no")
-  private Long orderNo;
+  @Column(name = "order_id", nullable = false)
+  private String orderId;
 
-  @Column(name = "order_seq")
-  private Integer orderSeq;
+  @Column(name = "item_id", nullable = false)
+  private Integer itemId;
 
 }

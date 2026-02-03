@@ -5,11 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,13 +21,13 @@ public class Order {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "order_no")
-  private Long orderNo;
+  @Column(name = "order_id", nullable = false)
+  private Long orderId;
 
-  @Column(name = "order_id")
-  private String orderId;
+  @Column(name = "order_no", nullable = false, unique = true)
+  private String orderNo;
 
-  @Column(name = "user_id")
+  @Column(name = "user_id", nullable = false)
   private Integer userId;
 
   @Column(name = "total_price")
@@ -53,12 +50,9 @@ public class Order {
   @Column(name = "updated_at")
   private LocalDateTime updatedAt;
 
-  @OneToMany(mappedBy = "order")
-  private List<OrderItem> items = new ArrayList<>();
-
-  public Order(String orderId, Integer userId, Integer totalPrice, String status,
+  public Order(String orderNo, Integer userId, Integer totalPrice, String status,
       String paymentMethod, String address) {
-    this.orderId = orderId;
+    this.orderNo = orderNo;
     this.userId = userId;
     this.totalPrice = totalPrice;
     this.status = status;
@@ -66,7 +60,14 @@ public class Order {
     this.address = address;
   }
 
-  public void setItems(List<OrderItem> items) {
-    this.items = items;
+  public Order(Long orderId, String orderNo, Integer userId, Integer totalPrice, String status,
+      String paymentMethod, String address) {
+    this.orderId = orderId;
+    this.orderNo = orderNo;
+    this.userId = userId;
+    this.totalPrice = totalPrice;
+    this.status = status;
+    this.paymentMethod = paymentMethod;
+    this.address = address;
   }
 }
