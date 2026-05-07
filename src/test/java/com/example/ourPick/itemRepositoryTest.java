@@ -3,14 +3,15 @@ package com.example.ourPick;
 import com.example.ourPick.domain.Item;
 import com.example.ourPick.repository.ItemRepository;
 import java.util.List;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.jdbc.Sql;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,20 +20,28 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @Transactional(propagation = Propagation.NOT_SUPPORTED)
-@Sql(scripts = "/sql/create-fulltext-index.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class ItemRepositoryTest {
 
   @Autowired
   private ItemRepository itemRepository;
 
-  @BeforeEach
+  @Autowired
+  private JdbcTemplate jdbcTemplate;
+
+  @BeforeAll
   void setUp() {
+    try {
+      jdbcTemplate.execute("ALTER TABLE items DROP INDEX idx_fulltext");
+    } catch (Exception ignored) {}
+    jdbcTemplate.execute("ALTER TABLE items ADD FULLTEXT INDEX idx_fulltext (item_name, store_name)");
+
     itemRepository.save(new Item("아이폰 15", "애플스토어", 10, 10000, "mainPhoto1"));
     itemRepository.save(new Item("갤럭시 S24", "삼성스토어", 20, 20000, "mainPhoto2"));
     itemRepository.save(new Item("아이폰 케이스", "쿠팡", 30, 30000, "mainPhoto3"));
   }
 
-  @AfterEach
+  @AfterAll
   void cleanup() {
     itemRepository.deleteAll();
   }
