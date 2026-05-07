@@ -21,20 +21,6 @@ jobs:
     permissions:
       contents: read
 
-    services:
-      mysql:
-        image: mysql:8.0
-        env:
-          MYSQL_ROOT_PASSWORD: ${{ secrets.DB_PASSWORD }}
-          MYSQL_DATABASE: our_pick
-        ports:
-          - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
-
     steps:
     - uses: actions/checkout@v4
     - name: Set up JDK 17
@@ -47,6 +33,20 @@ jobs:
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+    - name: Start MySQL
+      run: |
+        docker run -d \
+          --name mysql \
+          -e MYSQL_ROOT_PASSWORD=${{ secrets.DB_PASSWORD }} \
+          -e MYSQL_DATABASE=our_pick \
+          -p 3306:3306 \
+          mysql:8.0 \
+          --innodb_ft_min_token_size=2
+        until docker exec mysql mysqladmin ping --silent; do
+          echo "MySQL 준비 중..."
+          sleep 2
+        done
+
     - name: Grant execute permission for Gradlew
       run: chmod +x gradlew
 
