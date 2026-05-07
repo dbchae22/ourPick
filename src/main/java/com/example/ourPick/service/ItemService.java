@@ -37,4 +37,20 @@ public class ItemService {
     Optional<ItemResponse> item = itemRepository.findById(itemId).map(ItemResponse::from);
     return item;
   }
+
+  public List<ItemResponse> searchItems(String keyword) {
+    if (keyword == null || keyword.trim().isEmpty()) {
+      return List.of();
+    }
+
+    String processedKeyword = StringUtils.processSearchKeyword(keyword);
+    if (processedKeyword.isEmpty()) {
+      return List.of();
+    }
+
+    final List<Item> items = itemRepository.searchItems(processedKeyword);
+    return items.stream()
+        .map(ItemResponse::from)
+        .toList();
+  }
 }

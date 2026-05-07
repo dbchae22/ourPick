@@ -33,14 +33,27 @@ jobs:
     # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+    - name: Start MySQL
+      run: |
+        docker run -d \
+          --name mysql \
+          -e MYSQL_ROOT_PASSWORD=${{ secrets.DB_PASSWORD }} \
+          -e MYSQL_DATABASE=our_pick \
+          -p 3306:3306 \
+          mysql:8.0 \
+          --innodb_ft_min_token_size=2
+        until docker exec mysql mysqladmin ping --silent; do
+          echo "MySQL 준비 중..."
+          sleep 2
+        done
+
     - name: Grant execute permission for Gradlew
       run: chmod +x gradlew
 
     - name: Build with Gradle Wrapper
       run: ./gradlew build
-
-    - name: Test
-      run: ./gradlew test
+      env:
+        DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
